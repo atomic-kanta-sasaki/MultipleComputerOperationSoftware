@@ -6,6 +6,9 @@ using System.Windows.Automation;
 using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Runtime.InteropServices;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Diagnostics;
 
 namespace SeleniumChromeSample
 {
@@ -25,23 +28,27 @@ namespace SeleniumChromeSample
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
 
+        // powershellで実行するコマンドを作成
+        const string ps_command = "Get-ChildItem . -include hogerihogeta.py -Recurse";
+
         static void Main(string[] args)
         {
 
             String url = "https://www.google.co.jp/";
             Program program = new Program();
-            // program.openGetUrlForChome(url);
-            // program.GetCurrentUrl();
-            // String currentUrl =  program.GetActiveTabUrl();
+            // program.opengeturlforchome(url);
+            // program.getcurrenturl();
+            // string currenturl =  program.getactivetaburl();
 
             //for(int k = 0; k < 100; k++)
             // {
-            //    program.getActiveFilePath();
-            //    Thread.Sleep(100);
+            //    program.getactivefilepath();
+            //    thread.sleep(100);
             //}
-            // program.getActiveFilePath();
+            // program.getactivefilepath();
 
-            // program.moveDirectoryOfFile();
+            // program.movedirectoryoffile();
+            program.execPowershell();
 
         }
 
@@ -109,7 +116,24 @@ namespace SeleniumChromeSample
             Console.WriteLine( System.IO.Directory.GetFiles("test", ".py", System.IO.SearchOption.AllDirectories));
 
         }
+        //PowerShellの実行メソッド（引数:PowerShellコマンド)
+        static void OpenWithArguments(string options)
+        {
+            Process cmd = new Process();
+            cmd.StartInfo.FileName = "PowerShell.exe";
+            //PowerShellのWindowを立ち上げずに実行。
+            cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; 
+            // 引数optionsをShellのコマンドとして渡す。
+            cmd.StartInfo.Arguments = options;
+            cmd.Start();
+        }
 
+        public void execPowershell(){
+
+        string option = ps_command;
+        Program.OpenWithArguments(option);
+            
+        }
     }
 
 }
