@@ -125,6 +125,8 @@ namespace SeleniumChromeSample
             cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; 
             // 引数optionsをShellのコマンドとして渡す。
             cmd.StartInfo.Arguments = options;
+
+            Console.Write("=======================================================================================");
             cmd.Start();
         }
 
