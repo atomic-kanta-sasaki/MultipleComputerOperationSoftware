@@ -33,22 +33,43 @@ namespace SeleniumChromeSample
 
         static void Main(string[] args)
         {
-
+            
             String url = "https://www.google.co.jp/";
             Program program = new Program();
-            // program.opengeturlforchome(url);
-            // program.getcurrenturl();
-            // string currenturl =  program.getactivetaburl();
 
-            //for(int k = 0; k < 100; k++)
-            // {
-            //    program.getactivefilepath();
-            //    thread.sleep(100);
-            //}
-            // program.getactivefilepath();
+            var request =  Console.ReadLine();
 
-            // program.movedirectoryoffile();
-            program.execPowershell();
+            if(request == "open url") {
+                program.openGetUrlForChome(url);
+            }
+
+            if(request == "i") {
+                program.GetCurrentUrl();
+            }
+
+            if(request == "active url"){
+                string currenturl =  program.GetActiveTabUrl();
+            }
+            
+            if (request == "active application") {
+                for(int k = 0; k < 100; k++)
+                {
+                    program.getActiveFilePath();
+                    Thread.Sleep(100);
+                }
+            }
+            
+            if (request == "active file path"){
+                program.getActiveFilePath();
+            }
+            
+            if(request == "move file"){
+                program.moveDirectoryOfFile();
+            }
+
+            if(request == "exec") {
+                program.execPowershell();
+            }
 
         }
 
@@ -97,6 +118,8 @@ namespace SeleniumChromeSample
 
         public void getActiveFilePath()
         {
+            
+            Console.WriteLine("==========================");
             StringBuilder sb = new StringBuilder(65535);//65535に特に意味はない
             GetWindowText(GetForegroundWindow(), sb, 65535);
             Console.WriteLine(sb);
