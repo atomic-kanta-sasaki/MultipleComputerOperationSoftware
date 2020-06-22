@@ -31,48 +31,63 @@ namespace SeleniumChromeSample
         // powershellで実行するコマンドを作成
         const string ps_command = "Get-ChildItem . -include hogerihogeta.py -Recurse";
 
+       
+
+
         static void Main(string[] args)
         {
             
+             // いったんダミーファイルの場所をべた書きしておく
+            string sourceFile = @"C:\Users\g1723035\Documents\R_D\sample_C#\ConsoleApp1\ConsoleApp1\test.py";
+            // ファイルの移動先を示す
+            string destinationFile = @"C:\Users\g1723035\Documents\test.py";
+            
             String url = "https://www.google.co.jp/";
+            
             Program program = new Program();
 
             var request =  Console.ReadLine();
 
+            // 取得したURLをchromeで開く
             if(request == "open url") {
                 program.openGetUrlForChome(url);
             }
 
+            // いらないかな？
             if(request == "i") {
                 program.GetCurrentUrl();
             }
 
+            // 現在のchormeのアクティブなURLを取得し返却する
             if(request == "active url"){
                 string currenturl =  program.GetActiveTabUrl();
             }
             
-            if (request == "active application") {
+            // 現在のアクティブなアプリケーションの名前を取得する
+            if (request == "active application and file name") {
                 for(int k = 0; k < 100; k++)
                 {
-                    program.getActiveFilePath();
+                    program.getActiveApplicationAndFileName();
                     Thread.Sleep(100);
                 }
             }
             
-            if (request == "active file path"){
-                program.getActiveFilePath();
-            }
-            
+            // ファイルを所定の場所に移動させる
             if(request == "move file"){
-                program.moveDirectoryOfFile();
+                program.moveDirectoryOfFile(sourceFile, destinationFile);
             }
 
-            if(request == "exec") {
+            // powershellを起動できるらしいが多分動いていない
+            if(request == "exec powershell") {
                 program.execPowershell();
             }
 
         }
 
+        /**
+         * 取得したURLをもとにChomeで開く
+         * @param String url
+         */
         private void openGetUrlForChome(String url)
         {
             IWebDriver driver = new ChromeDriver();
@@ -94,6 +109,10 @@ namespace SeleniumChromeSample
 
         }
 
+        /**
+         * 多分いらないので後で消す 
+         */
+
         private String GetCurrentUrl()
         {
             IWebDriver driver = new ChromeDriver();
@@ -102,6 +121,11 @@ namespace SeleniumChromeSample
             return currentUrl;
         }
 
+        /**
+         * Chomeで開いているアクティブなタブを取得する
+         * @param 
+         * @return chome active tab url
+         */
         public String GetActiveTabUrl()
         {
             AutomationElement.RootElement
@@ -116,29 +140,36 @@ namespace SeleniumChromeSample
             return valuePattern.Current.Value;
         }
 
-        public void getActiveFilePath()
+        /**
+         * 現在アクティブになっているアプリケーションの名前とファイルの名前を取得する
+         * @param
+         * @return active application name and file name
+         */
+        public void getActiveApplicationAndFileName()
         {
-            
             Console.WriteLine("==========================");
             StringBuilder sb = new StringBuilder(65535);//65535に特に意味はない
             GetWindowText(GetForegroundWindow(), sb, 65535);
             Console.WriteLine(sb);
         }
 
-        public void moveDirectoryOfFile(){
-
-            string sourceFile = @"C:\Users\g1723035\Documents\R_D\sample_C#\ConsoleApp1\ConsoleApp1\test.py";
-            string destinationFile = @"C:\Users\g1723035\Documents\test.py";
+        /**
+         * ファイルを所定の場所に移動する
+         * @param sourceFile
+         * @param destinationFile
+         * 
+         * @return
+         */
+        public void moveDirectoryOfFile(String sourceFile, String destinationFile){
 
             // To move a file or folder to a new location:
             System.IO.File.Move(sourceFile, destinationFile);
         }
 
-        public void getFile()
-        {
-            Console.WriteLine( System.IO.Directory.GetFiles("test", ".py", System.IO.SearchOption.AllDirectories));
-
-        }
+        /**
+         * 今動いてない
+         * ファイル名からファイルパスを取得するためにpowershellを使用する予定だったが研究に不要なので削除するかもしれない
+         */
         //PowerShellの実行メソッド（引数:PowerShellコマンド)
         static void OpenWithArguments(string options)
         {
