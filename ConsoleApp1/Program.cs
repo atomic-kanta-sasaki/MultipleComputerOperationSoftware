@@ -31,9 +31,6 @@ namespace SeleniumChromeSample
         // powershellで実行するコマンドを作成
         const string ps_command = "Get-ChildItem . -include hogerihogeta.py -Recurse";
 
-       
-
-
         static void Main(string[] args)
         {
             
