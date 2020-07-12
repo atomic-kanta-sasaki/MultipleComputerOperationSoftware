@@ -9,6 +9,7 @@ using OpenQA.Selenium.Chrome;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Diagnostics;
+using System.IO.Ports;
 
 namespace SeleniumChromeSample
 {
